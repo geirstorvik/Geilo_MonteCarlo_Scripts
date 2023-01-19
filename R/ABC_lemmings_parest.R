@@ -7,7 +7,7 @@ library(DescTools)
 #rm(list=ls())
 sig2=1;sig=sqrt(sig2)
 sig2.a=1;sig.a=sqrt(sig2.a)
-d = read.table("data/lemmings.txt",header=TRUE)
+d = read.table("../data/lemmings.txt",header=TRUE)
 names(d) = c("y","year")
 y = d$y
 nT = length(y)
