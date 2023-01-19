@@ -42,6 +42,7 @@ for(i in 1:N)
 }
 
 fit.stan = readRDS("Lemmings_stan.RDS")
+library(rstan)
 a.sim.stan = extract(fit.stan,pars="a")$a
 a.sim.abc = a.sim
 
