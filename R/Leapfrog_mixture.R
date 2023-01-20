@@ -91,3 +91,11 @@ legend("topright",c("MH","HMC"),lty=1,col=3:2)
 par(mfrow=c(1,2))
 hist(X.MH,30,prob=TRUE,ylim=c(0,1));lines(x,distr(x),col=2)
 hist(X.HMC,30,prob=TRUE,ylim=c(0,1));lines(x,distr(x),col=2)
+
+cat("Acceptance rate=",acc/(N-1),"\n")
+pdf("Res_MixGauss_Ham.pdf",height=5,width=12)
+acf(X.MH,ylim=c(-0.1,1),lag.max=200,col=3,main="X1")
+par(new=T)
+acf(X.HMC,ylim=c(-0.1,1),lag.max=200,col=2,main="",lwd=2)
+dev.off()
+
