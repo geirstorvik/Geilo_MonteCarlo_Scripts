@@ -14,7 +14,7 @@ for(i in 1:M)
    {
     u1 = rnorm(1,-0.9*z[1],sqrt(1-0.9^2))
     z[2] = u1
-    r = dmvnorm(z,sigma=Sigma)*3/(dnorm(z[1],0,1)*dnorm(u1,0.9*z[1],sqrt(1-0.9^2)))
+    r = dmvnorm(z,sigma=Sigma)*4/(dnorm(z[1],0,1)*dnorm(u1,-0.9*z[1],sqrt(1-0.9^2)))
     if(runif(1)<r)
     {
      acc = 1
@@ -23,7 +23,7 @@ for(i in 1:M)
    if(theta==1)
    {
     u1 = z[2]
-    r = dnorm(z[1],0,1)*dnorm(u1,0.9*z[1],sqrt(1-0.9^2))/(3*dmvnorm(z,sigma=Sigma))
+    r = dnorm(z[1],0,1)*dnorm(u1,-0.9*z[1],sqrt(1-0.9^2))/(4*dmvnorm(z,sigma=Sigma))
     if(runif(1)<r)
     {
       acc = 1
