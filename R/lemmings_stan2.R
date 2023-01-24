@@ -13,8 +13,6 @@ index=c(1:n)[!is.na(y)]
 #init_fun = function()list(x=x.hat[,1],a=0.5)
 d_bin = list(N=n,y=y,sig=sig)
 library(rstan)
-fit = stan(file="lemmings.stan",data=d_bin,iter=10000)
-a.sim.stan = extract(fit,pars="a")$a
+fit = stan(file="lemmings2.stan",data=d_bin,iter=100000)
 
-
-saveRDS(a.sim.stan,"Lemmings_stan.RDS")
+saveRDS(fit,"Lemmings_stan.RDS")

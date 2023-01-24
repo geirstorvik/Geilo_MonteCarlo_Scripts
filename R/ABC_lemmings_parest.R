@@ -41,9 +41,7 @@ for(i in 1:N)
     a.sim = c(a.sim,a)
 }
 
-fit.stan = readRDS("Lemmings_stan.RDS")
-library(rstan)
-a.sim.stan = extract(fit.stan,pars="a")$a
+a.sim.stan = readRDS("Lemmings_stan.RDS")
 a.sim.abc = a.sim
 
 df = data.frame(a=c(a.sim.stan,a.sim.abc),
