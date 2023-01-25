@@ -6,7 +6,7 @@ library(DescTools)
 rm(list=ls())
 sig2=1;sig=sqrt(sig2)
 sig2.a=1;sig.a=sqrt(sig2.a)
-a=0.9
+a=0.5
 d = read.table("data/lemmings.txt",header=TRUE)
 names(d) = c("y","year")
 y = d$y
@@ -37,7 +37,7 @@ for(i in 2:nT)
   w.sim[i,] = w
   #Resample
   ind = sample(1:N,N,replace=T,prob=w)
-  x.cur = x.sim[i,ind]           #Note: Resampling only current
+  x.sim[1:i,] = x.sim[1:i,ind]           #Note: Resampling only current
   w = rep(1/N,N)
 }
 
