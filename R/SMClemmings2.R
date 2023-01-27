@@ -4,6 +4,7 @@
 #Inference based on fixed parameters
 SMClemmings2 = function(y=y,N=10000,sig=1,a=c(0.5,-0.2))
 {
+  require(reldist)
   nt = length(y)
   sig.a = sig
   x.sim = matrix(nrow=nT,ncol=N)
@@ -15,7 +16,7 @@ SMClemmings2 = function(y=y,N=10000,sig=1,a=c(0.5,-0.2))
   x.sim[1,]=rnorm(N,0,sig.a)
   w.sim[1,] = dbinom(y[1],1,exp(x.sim[1,])/(1+exp(x.sim[1,])))
   logL[1] = log(max(w.sim[1,]))+log(mean(w.sim[1,]/max(w.sim[1,])))
-  x.hat[1,1:3] = Quantile(x.sim[1,],weights=w.sim[1,],c(0.5,0.025,0.975))
+  x.hat[1,1:3] = wtd.quantile(x.sim[1,],weight=w.sim[1,],q=c(0.5,0.025,0.975))
   #Resample
   ind = sample(1:N,N,replace=T,prob=w.sim[1,])
   x.sim[1,] = x.sim[1,ind]
@@ -25,7 +26,7 @@ SMClemmings2 = function(y=y,N=10000,sig=1,a=c(0.5,-0.2))
   x.sim[2,]=rnorm(N,a[1]*x.sim[1,],sig.a)
   w.sim[2,] = dbinom(y[2],1,exp(x.sim[2,])/(1+exp(x.sim[2,])))
   logL[2] = log(max(w.sim[2,]))+log(mean(w.sim[2,]/max(w.sim[2,])))
-  x.hat[2,1:3] = Quantile(x.sim[2,],weights=w.sim[2,],c(0.5,0.025,0.975))
+  x.hat[2,1:3] = wtd.quantile(x.sim[2,],weight=w.sim[2,],q=c(0.5,0.025,0.975))
   #Resample
   ind = sample(1:N,N,replace=T,prob=w.sim[2,])
   x.sim[1:2,] = x.sim[1:2,ind]
@@ -38,7 +39,7 @@ SMClemmings2 = function(y=y,N=10000,sig=1,a=c(0.5,-0.2))
     if(!is.na(y[i]))
       w = w*dbinom(y[i],1,exp(x.sim[i,])/(1+exp(x.sim[i,])))
     #x.hat[i,1] = weighted.mean(x.sim[i,],w)
-    x.hat[i,1:3] = Quantile(x.sim[i,],weights=w,c(0.5,0.025,0.975))
+    x.hat[i,1:3] = wtd.quantile(x.sim[i,],weight=w,q=c(0.5,0.025,0.975))
     w.sim[i,] = w
     logL[i] = logL[i-1] + log(max(w.sim[i,]))+log(mean(w.sim[i,]/max(w.sim[i,])))
     #Resample

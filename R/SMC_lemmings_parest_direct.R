@@ -4,6 +4,7 @@
 #a~Unif[0,1]
 #Inference based on fixed parameters
 library(DescTools)
+library(reldist)
 rm(list=ls())
 sig2=1;sig=sqrt(sig2)
 sig2.a=1;sig.a=sqrt(sig2.a)
@@ -24,8 +25,8 @@ set.seed(345)
 x.sim[1,]=rnorm(N,0,sig)
 a.sim = runif(N)
 w.sim[1,] = dbinom(y[1],1,exp(x.sim[1,])/(1+exp(x.sim[1,])))
-x.hat[1,1:3] = Quantile(x.sim[1,],weights=w.sim[1,],c(0.5,0.025,0.975))
-a.hat[1,1:3] = Quantile(a.sim,weights=w.sim[1,],c(0.5,0.025,0.975))
+x.hat[1,1:3] = wtd.quantile(x.sim[1,],weight=w.sim[1,],q=c(0.5,0.025,0.975))
+a.hat[1,1:3] = wtd.quantile(a.sim,weight=w.sim[1,],q=c(0.5,0.025,0.975))
 a.unique[1] = length(unique(a.sim))
 #Resample
 ind = sample(1:N,N,replace=T,prob=w.sim[1,])
@@ -35,8 +36,8 @@ for(i in 2:nT)
   x.sim[i,]=rnorm(N,a.sim*x.sim[i-1,ind],sig)
   if(!is.na(y[i]))
     w = w*dbinom(y[i],1,exp(x.sim[i,])/(1+exp(x.sim[i,])))
-  x.hat[i,1:3] = Quantile(x.sim[i,],weights=w,c(0.5,0.025,0.975))
-  a.hat[i,1:3] = Quantile(a.sim,weights=w,c(0.5,0.025,0.975))
+  x.hat[i,1:3] = wtd.quantile(x.sim[i,],weight=w,q=c(0.5,0.025,0.975))
+  a.hat[i,1:3] = wtd.quantile(a.sim,weight=w,q=c(0.5,0.025,0.975))
   a.unique[i] = length(unique(a.sim))
   w.sim[i,] = w
   #Resample
