@@ -5,30 +5,24 @@ p = 2
 x= matrix(rnorm(n*p),ncol=p)
 X = cbind(1,x)
 p = ncol(X)
-<<<<<<< HEAD
 beta = matrix(c(1,0.7,0.2),ncol=1)
-=======
 beta = matrix(c(1,0.5,0.3),ncol=1)
->>>>>>> c326f1fc30d1ae25be64b8221dece55d4959c34d
 eta = X%*%beta
 pr = 1/(1+exp(-eta))
 y = rbinom(n,1,prob=pr)
 d = data.frame(x=X,y=y)
 
 #fitting glm
-<<<<<<< HEAD
 fit = glm(y~X-1,family=binomial)
 s = summary(fit)$coef
 
 sd.beta = 10
 prob.gam = c(0.5,0.5)
 prob.gam = prob.gam/(1-prob.gam)
-=======
 fit = glm(y~X-1)
 s = summary(fit)$coef
 
 sd.beta = 10
->>>>>>> c326f1fc30d1ae25be64b8221dece55d4959c34d
 
 #function calculating log-likelihood
 logL = function(beta,gam,y=y,X=X)
@@ -62,13 +56,10 @@ for(i in 2:M)
     gam.prop = gam.sim
     gam.prop[j] = TRUE
     logpi.prop = logL(beta.prop,gam.prop,y,X)
-<<<<<<< HEAD
     r = exp(logpi.prop-logpi.cur-dnorm(beta.prop[j],s[j,1],s[j,2],log=TRUE))*prod(prob.gam^(gam.prop[-1]-gam.sim[-1]))
     #r=-1
-=======
     r = exp(logpi.prop-logpi.cur-dnorm(beta.prop[j],s[j,1],s[j,2]))
-    r=-1
->>>>>>> c326f1fc30d1ae25be64b8221dece55d4959c34d
+    #r=-1
     if(runif(1)<r)
     {
       beta.sim = beta.prop
@@ -84,13 +75,10 @@ for(i in 2:M)
     gam.prop = gam.sim
     gam.prop[j] = FALSE
     logpi.prop = logL(beta.prop,gam.prop,y,X)
-<<<<<<< HEAD
     r = exp(logpi.prop-logpi.cur+dnorm(beta.sim[j],s[j,1],s[j,2],log=TRUE))*prod(prob.gam^(gam.prop[-1]-gam.sim[-1]))
     #r=-1
-=======
     r = exp(logpi.prop-logpi.cur+dnorm(beta.sim[j],s[j,1],s[j,2]))
-    r=-1
->>>>>>> c326f1fc30d1ae25be64b8221dece55d4959c34d
+    #r=-1
     if(runif(1)<r)
     {
       beta.sim = beta.prop
@@ -116,10 +104,7 @@ for(i in 2:M)
   beta.M[i,] = beta.sim
   gam.M[i,] = gam.sim
   logpi.M[i] = logpi.cur
-<<<<<<< HEAD
 }
 show(colMeans(gam.M))
 show(table(gam.M[,2],gam.M[,3])/M)
-=======
-}
->>>>>>> c326f1fc30d1ae25be64b8221dece55d4959c34d
+
