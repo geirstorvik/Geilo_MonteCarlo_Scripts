@@ -47,7 +47,7 @@ beta.M[1,] = beta.sim
 gam.sim = rep(1,p)
 for(i in 2:M)
 {
-  #Select variable to change, not includinng intercept
+  #Select variable to change, not including intercept
   j = sample(2:p,1)
   if(!gam.sim[j])  #Add component
   {
@@ -57,9 +57,6 @@ for(i in 2:M)
     gam.prop[j] = TRUE
     logpi.prop = logL(beta.prop,gam.prop,y,X)
     r = exp(logpi.prop-logpi.cur-dnorm(beta.prop[j],s[j,1],s[j,2],log=TRUE))*prod(prob.gam^(gam.prop[-1]-gam.sim[-1]))
-    #r=-1
-    r = exp(logpi.prop-logpi.cur-dnorm(beta.prop[j],s[j,1],s[j,2]))
-    #r=-1
     if(runif(1)<r)
     {
       beta.sim = beta.prop
@@ -76,9 +73,6 @@ for(i in 2:M)
     gam.prop[j] = FALSE
     logpi.prop = logL(beta.prop,gam.prop,y,X)
     r = exp(logpi.prop-logpi.cur+dnorm(beta.sim[j],s[j,1],s[j,2],log=TRUE))*prod(prob.gam^(gam.prop[-1]-gam.sim[-1]))
-    #r=-1
-    r = exp(logpi.prop-logpi.cur+dnorm(beta.sim[j],s[j,1],s[j,2]))
-    #r=-1
     if(runif(1)<r)
     {
       beta.sim = beta.prop
@@ -93,7 +87,7 @@ for(i in 2:M)
     beta.prop = beta.sim
     beta.prop[j] = rnorm(1,beta.sim[j],s[j,2])
     logpi.prop = logL(beta.prop,gam.sim,y,X)
-    r = exp(100*(logpi.prop-logpi.cur))
+    r = exp((logpi.prop-logpi.cur))
     if(runif(1)<r)
     {
       beta.sim = beta.prop
